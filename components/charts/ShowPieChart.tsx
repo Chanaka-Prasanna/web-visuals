@@ -21,6 +21,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Button } from "../ui/button";
 
 interface DynamicChartData {
   browser: string;
@@ -288,18 +289,12 @@ const ShowDynamicPieChart: React.FC<ShowDynamicPieChartProps> = ({
           January - June 2024
         </CardDescription>
         <div className="flex gap-2 mt-2">
-          <button
-            onClick={downloadAsPNG}
-            className="inline-flex items-center gap-2 px-3 py-1 text-sm bg-orange-500 dark:bg-orange-700 text-white border border-orange-500 dark:border-orange-700 rounded-none hover:bg-orange-600 dark:hover:bg-orange-800"
-          >
+          <Button onClick={downloadAsPNG} className="btn-primary  ">
             <Download className="h-4 w-4" /> PNG
-          </button>
-          <button
-            onClick={downloadAsPDF}
-            className="inline-flex items-center gap-2 px-3 py-1 text-sm bg-orange-500 dark:bg-orange-700 text-white border border-orange-500 dark:border-orange-700 rounded-none hover:bg-orange-600 dark:hover:bg-orange-800"
-          >
+          </Button>
+          <Button onClick={downloadAsPDF} className="btn-invert">
             <FileType className="h-4 w-4" /> PDF
-          </button>
+          </Button>
         </div>
       </CardHeader>
 
@@ -331,7 +326,7 @@ const ShowDynamicPieChart: React.FC<ShowDynamicPieChartProps> = ({
           {formData.map((row, index) => (
             <div key={index} className="grid grid-cols-2 gap-2">
               <Input
-                className="rounded-none"
+                className="rounded-lg"
                 type="text"
                 placeholder="Browser"
                 value={row.browser}
@@ -340,7 +335,7 @@ const ShowDynamicPieChart: React.FC<ShowDynamicPieChartProps> = ({
                 }
               />
               <Input
-                className="rounded-none"
+                // className="rounded-none"
                 type="number"
                 placeholder="Visitors"
                 value={row.visitors}
@@ -438,6 +433,7 @@ const ShowDynamicPieChart: React.FC<ShowDynamicPieChartProps> = ({
         <div className="leading-none text-orange-500 dark:text-orange-400">
           Showing total visitors for the last 6 months
         </div>
+        <Button>Hellow There</Button>
       </CardFooter>
     </Card>
   );
