@@ -2,6 +2,7 @@ import React from "react";
 import { ModeToggle } from "../toggle";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "../ui/button";
 
 const navbar = () => {
   const navElements = [
@@ -10,16 +11,30 @@ const navbar = () => {
     { name: "Contact", href: "/contact" },
   ];
   return (
-    <div className="sticky top-0  border-b md:w-2/3 w-full mx-auto p-4 flex justify-between bg-bg items-center">
+    <div className=" w-full mx-auto h-[80px] py-4 flex justify-between bg-background items-center">
+      <Image src="/logo.png" width={50} height={50} alt="logo" />
       <div className="w-1/2 space-x-4 flex items-center">
-        <Image src="/logo.png" width={50} height={50} alt="logo" />
         {navElements.map((item) => (
-          <Link className="text-blue-200" href={item.href} key={item.name}>
+          <Link
+            className="text-primary text-xl"
+            href={item.href}
+            key={item.name}
+          >
             {item.name}
           </Link>
         ))}
       </div>
-      <ModeToggle />
+      <div className="flex items-center space-x-4">
+        <ModeToggle />
+        <div className="space-x-2">
+          <Button size="lg" className="bg-primary text-primary-foreground">
+            Sign Up
+          </Button>
+          <Button size="lg" className="bg-primary text-primary-foreground">
+            Sign In
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
