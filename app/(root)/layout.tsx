@@ -1,4 +1,5 @@
-import Navbar from "@/components/shared/navbar";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/navigation/Navbar";
 import React from "react";
 
 const RootLayOut = ({
@@ -7,9 +8,10 @@ const RootLayOut = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen ">
       <Navbar />
       {children}
+      <Footer />
     </div>
   );
 };

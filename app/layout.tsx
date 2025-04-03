@@ -11,8 +11,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Web Visuals",
-  description: "Gnerate visuals for your data",
+  title: "Web Visuals - Easy Data Visualization",
+  description:
+    "Upload CSV/JSON data and automatically generate insightful charts.",
 };
 
 export default function RootLayout({
