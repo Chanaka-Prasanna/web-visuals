@@ -1,5 +1,5 @@
 // app/visual/page.tsx
-"use client"; // This page requires client-side interactivity and state
+"use client";
 
 import React, { useState, useCallback } from "react";
 import FileUploader from "@/components/core/FileUploader"; // Adjust path
