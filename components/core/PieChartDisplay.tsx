@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import Card, { CardHeader, CardTitle, CardContent } from "@/components/ui/Card"; // Adjust path
+import Card, { CardHeader, CardTitle, CardContent } from "../ui/Card"; // Adjust path
 import type { PieChartDisplayProps } from "@/types"; // Adjust path
 
 // Define shades of orange (or use a library for color generation)

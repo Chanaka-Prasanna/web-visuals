@@ -2,8 +2,8 @@
 "use client"; // Required for checkbox state interaction
 
 import React from "react";
-import Checkbox from "@/components/ui/Checkbox"; // Adjust path
-import Card, { CardHeader, CardTitle, CardContent } from "@/components/ui/Card"; // Adjust path
+import Checkbox from "../ui/Checkbox"; // Adjust path
+import Card, { CardHeader, CardTitle, CardContent } from "../ui/Card"; // Adjust path
 import type { ColumnSelectorProps } from "@/types"; // Adjust path
 
 const ColumnSelector: React.FC<ColumnSelectorProps> = ({

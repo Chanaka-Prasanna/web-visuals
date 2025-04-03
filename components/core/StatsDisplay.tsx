@@ -2,7 +2,7 @@
 "use client"; // Keep consistent, might add interactions later
 
 import React from "react";
-import Card, { CardHeader, CardTitle, CardContent } from "@/components/ui/Card"; // Adjust path
+import Card, { CardHeader, CardTitle, CardContent } from "../ui/Card"; // Adjust path
 import type { StatsDisplayProps } from "@/types"; // Adjust path
 
 // Helper to format numbers nicely
