@@ -9,7 +9,7 @@ import type { FileUploaderProps, ParsedData } from "@/types"; // Adjust path
 
 const FileUploader: React.FC<FileUploaderProps> = ({
   onFileParsed,
-  acceptedFileTypes = ".csv, .json",
+  acceptedFileTypes = ".csv, .json, .xlsx, .xls",
 }) => {
   const [isParsing, setIsParsing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,48 +30,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     [] // Keep empty dependency array if onFileParsed is stable
     // If onFileParsed might change, include it: [onFileParsed]
   );
-
-  const processFile = async (file: File) => {
-    setIsParsing(true);
-    setError(null);
-    setFileName(file.name);
-    onFileParsed(null); // Clear previous results immediately
-
-    try {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const fileContent = e.target?.result as string;
-        if (!fileContent) {
-          throw new Error("Could not read file content.");
-        }
-        try {
-          const parsedData: ParsedData = await parseFileContent(
-            fileContent,
-            file.name
-          );
-          onFileParsed(parsedData);
-        } catch (parseError: any) {
-          console.error("Parsing Error:", parseError);
-          setError(parseError.message || "Failed to parse the file.");
-          onFileParsed(null, parseError.message || "Failed to parse the file.");
-        } finally {
-          setIsParsing(false);
-        }
-      };
-      reader.onerror = (e) => {
-        console.error("FileReader Error:", e);
-        setError("Failed to read the file.");
-        onFileParsed(null, "Failed to read the file.");
-        setIsParsing(false);
-      };
-      reader.readAsText(file); // Read file as text
-    } catch (err: any) {
-      console.error("File Processing Error:", err);
-      setError(err.message || "An unexpected error occurred.");
-      onFileParsed(null, err.message || "An unexpected error occurred.");
-      setIsParsing(false);
-    }
-  };
 
   // Handle clicking the button/div to trigger the hidden file input
   const handleButtonClick = () => {
@@ -105,6 +63,59 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       );
     }
   };
+  const processFile = async (file: File) => {
+    setIsParsing(true);
+    setError(null);
+    setFileName(file.name);
+    onFileParsed(null);
+
+    const fileExtension = file.name.split(".").pop()?.toLowerCase();
+    const isExcel = fileExtension === "xlsx" || fileExtension === "xls";
+
+    try {
+      const reader = new FileReader();
+
+      reader.onload = async (e) => {
+        const fileContent = e.target?.result; // This will be string or ArrayBuffer
+        if (!fileContent) {
+          throw new Error("Could not read file content.");
+        }
+        try {
+          // Pass content and name to the updated parser
+          const parsedData: ParsedData = await parseFileContent(
+            fileContent,
+            file.name
+          );
+          onFileParsed(parsedData);
+        } catch (parseError: any) {
+          console.error("Parsing Error:", parseError);
+          setError(parseError.message || "Failed to parse the file.");
+          onFileParsed(null, parseError.message || "Failed to parse the file.");
+        } finally {
+          setIsParsing(false);
+        }
+      };
+
+      reader.onerror = (e) => {
+        console.error("FileReader Error:", e);
+        setError("Failed to read the file.");
+        onFileParsed(null, "Failed to read the file.");
+        setIsParsing(false);
+      };
+
+      // Read as ArrayBuffer for Excel, otherwise as Text
+      if (isExcel) {
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.readAsText(file); // For CSV/JSON
+      }
+    } catch (err: any) {
+      console.error("File Processing Error:", err);
+      setError(err.message || "An unexpected error occurred.");
+      onFileParsed(null, err.message || "An unexpected error occurred.");
+      setIsParsing(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-lg mx-auto">
@@ -120,7 +131,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           <span className="font-semibold text-primary">Click to upload</span> or
           drag and drop
         </p>
-        <p className="text-xs text-gray-500">CSV or JSON files</p>
+        <p className="text-xs text-gray-500">CSV, JSON, XLSX, or XLS files</p>
         <input
           type="file"
           ref={fileInputRef}
